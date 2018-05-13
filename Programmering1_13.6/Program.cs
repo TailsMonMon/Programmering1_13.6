@@ -7,24 +7,45 @@ using System.Threading.Tasks;
 namespace Programmering1_13._6 {
     class Program {
         static void Main(string[] args) {
-            Console.Write("Vad är tempraturen i Östersund? ");
-            String östersundString = Console.ReadLine();
-            Double östersundTemp = Convert.ToDouble(östersundString);
+            List<CityTemperature> cityNameAndTemprature = new List<CityTemperature>();
+            Console.WriteLine("=== MENY === \n" +
+                              "[L]ägg till temperaturmätning \n" +
+                              "[S]kriv ut alla temperaturer samt medeltemeratur \n" +
+                              "[A]vsluta");
+            do {
+                ConsoleKeyInfo menuChoice = Console.ReadKey(true);
 
-            Console.Write("Vad är tempraturen i Åmål? ");
-            String åmålString = Console.ReadLine();
-            Double åmålTemp = Convert.ToDouble(åmålString);
+                if(menuChoice.Key == ConsoleKey.L) {
+                    Console.Write("Ange stad: ");
+                    string name = Console.ReadLine();
+                    Console.Write("Ange temperatur: ");
+                    int temp = Convert.ToInt32(Console.ReadLine());
+                    
+                    cityNameAndTemprature.Add(new CityTemperature(temp, name));
+                }
+                else if(menuChoice.Key == ConsoleKey.S) {
+                    int totalTemperatures = 0;
+                    Console.WriteLine("Följande temperaturer har angets: ");
+                    foreach(CityTemperature cityTempValue in cityNameAndTemprature) {
+                        Console.Write(cityTempValue.Name + " ");
+                        Console.WriteLine(cityTempValue.Temprature);
 
-            if(åmålTemp > östersundTemp) {
-                Console.WriteLine("Det är kallast i Östersund!");
-            }
-            else if(åmålTemp == östersundTemp) {
-                Console.WriteLine("Det är lika kallt!");
-            }
-            else {
-                Console.WriteLine("Det är kallast i Åmål!");
-            }
-
+                        totalTemperatures += cityTempValue.Temprature;
+                    }
+                    int mediumValue = totalTemperatures / cityNameAndTemprature.Count;
+                    Console.WriteLine("Medeltemperaturen är {0} grader", mediumValue);
+                }
+                else if(menuChoice.Key == ConsoleKey.A) {
+                    Console.WriteLine("Tack för denna gången!");
+                    break;
+                }
+                else {
+                    Console.WriteLine("=== MENY === \n" +
+                              "[L]ägg till temperaturmätning \n" +
+                              "[S]kriv ut alla temperaturer samt medeltemeratur \n" +
+                              "[A]vsluta");
+                }
+            } while(true);
             Console.ReadKey();
         }
     }
